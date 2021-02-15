@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- We get this template from documentation -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean name="student1" class="com.springcore.Student" p:studentId="1234" p:studentName="Mayank" p:studentAddress="pa-24 o.f estate muradnagar ghaziabad uttar pradesh 201206">
+		<!-- bean is POJO class -->
+		<!-- collaborators and configuration for this bean go here -->
+		<!-- using property declaring injection using setters. Value leads to intial 
+			value of attributes and name of property must be same as data members of 
+			class -->
+
+	</bean>
+
+	<!-- more bean definitions go here -->
+</beans>

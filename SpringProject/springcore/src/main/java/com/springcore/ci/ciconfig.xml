@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- We get this template from documentation -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd" xmlns:c="http://www.springframework.org/schema/c">
+
+	<bean class="com.springcore.ci.Certi" name="cer">
+		<constructor-arg value="Android using Kotlin" />
+	</bean>
+	<!-- We can also do it as below using c:schema for which xlmns:c is required-->
+	<!-- <bean class="com.springcore.ci.Certi" name="cer" c:name="Android using Kotlin" /> -->
+
+	<!-- <bean class="com.springcore.ci.Person" name="person" c:name="Durgesh" c:personId="12" c:certi-ref="cer" /> -->
+
+	<!-- We used c:schema for reference injection -->
+	<bean class="com.springcore.ci.Person" name="person">
+		<constructor-arg value="Durgesh" />
+		<!-- <constructor-arg value="12" type="int" /> -->
+		<constructor-arg><value type = "int"> 12</value></constructor-arg>
+		<constructor-arg ref="cer" />
+		<!-- type property is optional, it can detect automatically 
+		buy it is better to use it to ignore ambiguity-->
+
+		<!-- <constructor-arg>
+			 <value>12</value>
+		 </constructor-arg> -->
+
+	</bean>
+
+	<!-- more bean definitions go here -->
+
+</beans>
