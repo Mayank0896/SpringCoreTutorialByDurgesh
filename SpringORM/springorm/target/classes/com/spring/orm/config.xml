@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- We get this template from documentation -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd 
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util-3.0.xsd http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd" xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx">
+
+    <tx:annotation-driven />
+    <!-- to enable transactional anno -->
+    <!-- <context:component-scan base-package="com.springcore.stereotypeannotations" /> -->
+
+    <!-- creating bean of JdbcTemplate class -->
+    
+    <!-- DiverManagerDataSource bean. -->
+    <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" name="ds">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/springorm"></property>
+        <property name="username" value="root" />
+        <property name="password" value="1234" />
+    </bean>
+
+    <!-- datasource properties  -->
+    <bean class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" name="factory">
+        <property name="dataSource" ref="ds" />
+        <property name="hibernateProperties">
+            <props>
+                <!-- <prop key="hibernate.dialect">org.hibernate.dialect.MYSQL57Dialect</prop> this is wrong-->
+                <!-- MySQL8Dialect is a connector for mysql 8 version. I have version 8 in my pc -->
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</prop>
+                <!-- Hibernate has build-in a function to enable the logging 
+                of all the generated SQL statements to the console. 
+                You can enable it by add a “show_sql” property in the Hibernate 
+                configuration file “hibernate.cfg.xml“. SQL command is shown in output like 
+            Hibernate: insert into student_details (student_city, student_name, student_id) values (?, ?, ?)-->
+                <prop key="hibernate.show_sql">true</prop>
+                <!-- hibernate.hbm2ddl.auto is automatically validates and exports DDL to schema when the sessionFactory is created.
+
+                By default, It is not doing any creation or modification automatically on db. If user sets below values then it is doing DDL  schema changes automatically.
+
+                create - doing creating schema
+                update - updating existing schema
+                validate - validate existing schema
+                create-drop - create and drop the schema automatically when session is starts and ends. -->
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+            </props>
+
+        </property>
+            <!-- It is used to add entity classes -->
+        <property name="annotatedClasses">
+            <!-- list of annotated classes -->
+            <list>
+                <value>com.spring.orm.entities.Student</value>
+            </list>
+        </property>
+
+    </bean>
+    <!-- hibernateTemplate bean  -->
+    <bean class="org.springframework.orm.hibernate5.HibernateTemplate" name="hibernateTemplate">
+        <property name="sessionFactory" ref="factory"></property>
+    </bean>
+
+    <!-- StudentDao  -->
+    <bean class="com.spring.orm.dao.StudentDao" name="studentDao">
+        <property name="hibernateTemplate" ref="hibernateTemplate"></property>
+    </bean>
+
+    <bean class="org.springframework.orm.hibernate5.HibernateTransactionManager" name="transactionManager">
+        <property name="sessionFactory" ref="factory"></property>
+    </bean>
+
+    <!-- more bean definitions go here -->
+</beans>
